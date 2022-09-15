@@ -179,39 +179,6 @@ let json = `[{
 	"height": "500px",
 	"background-color": "#FFFFF0"}
 },{
-	"data-type": "block",
-        "style":{
-	"width": "100%",
-	"height": "150px",
-	"background-color": "#c6c3af",
-	"border-radius": "40px"}
-},{
-    "data-type": "block",
-        "style":{
-    "width": "100px",
-    "height": "100px",
-    "border": "thick solid grey"}
-},{
-	"data-type": "block",
-        "style":{
-	"width": "80px",
-	"height": "80px",
-	"background-color": "grey",
-	"border-radius": "50%"}
-},{
-    "data-type": "block",
-        "style":{
-    "width": "100px",
-    "height": "50px",
-    "background-color": "#fff973",
-    "border-radius": "100px / 50px"}
-},{
-    "data-type": "block",
-        "style":{
-    "width": "100%",
-    "height": "100px",
-    "background-color": "pink"}
-},{
 	"data-type": "button",
         "style":{
 	"width": "150px",
