@@ -1,135 +1,148 @@
 document.addEventListener("DOMContentLoaded", function (event) {
-    let login = localStorage.getItem('login');
-    let firstName = localStorage.getItem('firstname');
-    if (login != null) {
-        document.getElementById('wrapper__button').innerHTML = `
+  let login = localStorage.getItem("login");
+  let firstName = localStorage.getItem("firstname");
+  if (login != null) {
+    document.getElementById("wrapper__button").innerHTML = `
         <div>Привет, ${firstName}!</div>
-        <button id="buttonOut" onclick="outUser()" class="regButton">Выйти</button>`
-    }
-})
+        <button id="buttonOut" onclick="outUser()" class="regButton">Выйти</button>`;
+  }
+});
 
 let errors = [];
 
 function showReg(state) {
-    errors = [];
-    document.getElementById('windowReg').style.display = state;
-    document.getElementById('gray').style.display = state;
+  errors = [];
+  document.getElementById("windowReg").style.display = state;
+  document.getElementById("gray").style.display = state;
 }
 
 function showIn(state) {
-    document.getElementById('windowIn').style.display = state;
-    document.getElementById('gray2').style.display = state;
-    let email = localStorage.getItem('email');
-    let password = localStorage.getItem('pass');
-    if (email != null) {
-        document.querySelector('#email__in').value = email;
-    }
-    if (email != null) {
-        document.querySelector('#pass__in').value = password;
-    }
+  document.getElementById("windowIn").style.display = state;
+  document.getElementById("gray2").style.display = state;
+  let email = localStorage.getItem("email");
+  let password = localStorage.getItem("pass");
+  if (email != null) {
+    document.querySelector("#email__in").value = email;
+  }
+  if (email != null) {
+    document.querySelector("#pass__in").value = password;
+  }
 }
 
 function checkValidity(input) {
-    let validity = input.validity;
-    console.log(validity.valueMissing);
+  let validity = input.validity;
+  console.log(validity.valueMissing);
 
-    if (validity.valueMissing) {
-        errors.push('Поле ' + input.placeholder + ' не заполнено');
-    }
-    if (validity.patternMismatch) {
-        errors.push('Не верный формат заполнения e-mail');
-    }
-    return errors;
+  if (validity.valueMissing) {
+    errors.push("Поле " + input.placeholder + " не заполнено");
+  }
+  if (validity.patternMismatch) {
+    errors.push("Не верный формат заполнения e-mail");
+  }
+  return errors;
 }
 
 function checkPassword() {
-    let password = document.querySelector('#pass1').value;
-    let password2 = document.querySelector('#pass2').value;
-    console.log(password);
-    if (password != null) {
-        if (password.length < 4) {
-            errors.push('Минимальное значение пароля не может быть меньше, чем 4');
-        }
-        if (password.length > 10) {
-            errors.push('Максимальное значение пароля не может быть больше, чем 10');
-        }
-        if (password.search(/[a-z]/) === -1) {
-            errors.push('Пароль должен содержать минимум одну прописную букву');
-        }
-        if (password.search(/[A-Z]/) === -1) {
-            errors.push('Пароль должен содержать минимум одну заглавную букву');
-        }
-        if (password.search(/[0123456789]/) === -1) {
-            errors.push('Пароль должен содержать минимум одну цифру');
-        }
-        if (password != password2) {
-            errors.push('Пароль не совпадает!');
-        }
+  let password = document.querySelector("#pass1").value;
+  let password2 = document.querySelector("#pass2").value;
+  console.log(password);
+  if (password != null) {
+    if (password.length < 4) {
+      errors.push("Минимальное значение пароля не может быть меньше, чем 4");
     }
-    return errors;
+    if (password.length > 10) {
+      errors.push("Максимальное значение пароля не может быть больше, чем 10");
+    }
+    if (password.search(/[a-z]/) === -1) {
+      errors.push("Пароль должен содержать минимум одну прописную букву");
+    }
+    if (password.search(/[A-Z]/) === -1) {
+      errors.push("Пароль должен содержать минимум одну заглавную букву");
+    }
+    if (password.search(/[0123456789]/) === -1) {
+      errors.push("Пароль должен содержать минимум одну цифру");
+    }
+    if (password != password2) {
+      errors.push("Пароль не совпадает!");
+    }
+  }
+  return errors;
 }
 
 function pushReg() {
-    let inputs = document.querySelectorAll(".inputReg");
-    console.log(inputs);
-    for (let input of inputs) {
-        checkValidity(input);
-    }
+  let inputs = document.querySelectorAll(".inputReg");
+  console.log(inputs);
+  for (let input of inputs) {
+    checkValidity(input);
+  }
 
-    checkPassword();
+  checkPassword();
 
-    if (errors == false) {
-        saveData();
-    } else {
-        document.getElementById("error").innerHTML = errors.join('.<br>');
-        errors = [];
-    }
-    document.querySelector('form').addEventListener('submit', (e) => e.preventDefault())
-
+  if (errors == false) {
+    saveData();
+  } else {
+    document.getElementById("error").innerHTML = errors.join(".<br>");
+    errors = [];
+  }
+  document
+    .querySelector("form")
+    .addEventListener("submit", (e) => e.preventDefault());
 }
 
 function saveData() {
-    let firstName = document.querySelector('#firstname').value;
-    let lastName = document.querySelector('#lastname').value;
-    let email = document.querySelector('#email').value;
-    let password = document.querySelector('#pass1').value;
-    let password2 = document.querySelector('#pass2').value;
-    console.log(password, password2);
-    document.querySelector('.error').innerHTML = '';
+  let firstName = document.querySelector("#firstname").value;
+  let lastName = document.querySelector("#lastname").value;
+  let email = document.querySelector("#email").value;
+  let password = document.querySelector("#pass1").value;
+  let password2 = document.querySelector("#pass2").value;
+  console.log(password, password2);
+  document.querySelector(".error").innerHTML = "";
 
-    if (localStorage.getItem('firstName') == null) {
-        localStorage.setItem('firstname', firstName);
-    }
-    if (localStorage.getItem('lastname') == null) {
-        localStorage.setItem('lastname', lastName);
-    }
-    if (localStorage.getItem('email') == null) {
-        localStorage.setItem('email', email);
-    }
-    if (localStorage.getItem('pass') == null) {
-        localStorage.setItem('pass', password2);
-    }
+  if (localStorage.getItem("firstName") == null) {
+    localStorage.setItem("firstname", firstName);
+  }
+  if (localStorage.getItem("lastname") == null) {
+    localStorage.setItem("lastname", lastName);
+  }
+  if (localStorage.getItem("email") == null) {
+    localStorage.setItem("email", email);
+  }
+  if (localStorage.getItem("pass") == null) {
+    localStorage.setItem("pass", password2);
+  }
 
-    localStorage.setItem('login', true);
-    document.getElementById('windowReg').style.display = "none";
-    document.getElementById('gray').style.display = "none";
-    document.querySelector('form').addEventListener('submit', (e) => e.preventDefault())
-    document.getElementById('wrapper__button').innerHTML = `<div>Привет, ${firstName}!</div><button id="buttonOut" onclick="outUser()" class="regButton">Выйти</button>`
+  localStorage.setItem("login", true);
+  document.getElementById("windowReg").style.display = "none";
+  document.getElementById("gray").style.display = "none";
+  document
+    .querySelector("form")
+    .addEventListener("submit", (e) => e.preventDefault());
+  document.getElementById(
+    "wrapper__button"
+  ).innerHTML = `<div>Привет, ${firstName}!</div><button id="buttonOut" onclick="outUser()" class="regButton">Выйти</button>`;
 }
 
 function getIn() {
-    document.querySelector('#inForm').addEventListener('submit', (e) => e.preventDefault())
-    document.getElementById('windowIn').style.display = "none";
-    document.getElementById('gray2').style.display = "none";
-    document.getElementById('wrapper__button').innerHTML = `<div>Привет, ${localStorage.getItem('firstname')}!</div><button id="buttonOut" onclick="outUser()" class="regButton">Выйти</button>`
-    localStorage.setItem('login', true);
+  document
+    .querySelector("#inForm")
+    .addEventListener("submit", (e) => e.preventDefault());
+  document.getElementById("windowIn").style.display = "none";
+  document.getElementById("gray2").style.display = "none";
+  document.getElementById(
+    "wrapper__button"
+  ).innerHTML = `<div>Привет, ${localStorage.getItem(
+    "firstname"
+  )}!</div><button id="buttonOut" onclick="outUser()" class="regButton">Выйти</button>`;
+  localStorage.setItem("login", true);
 }
 
 function outUser() {
-    document.getElementById('wrapper__button').innerHTML = `<button id="buttonReg" onclick="showReg('block')" class="regButton">Регистрация</button>
-    <button id="buttonIn" onclick="showIn('block')" class="regButton">Войти</button>`
-    localStorage.removeItem('login');
-};
+  document.getElementById(
+    "wrapper__button"
+  ).innerHTML = `<button id="buttonReg" onclick="showReg('block')" class="regButton">Регистрация</button>
+    <button id="buttonIn" onclick="showIn('block')" class="regButton">Войти</button>`;
+  localStorage.removeItem("login");
+}
 let json = `[{
     "data-type": "block",
         "style":{
@@ -178,39 +191,6 @@ let json = `[{
 	"width": "100%",
 	"height": "500px",
 	"background-color": "#FFFFF0"}
-},{
-	"data-type": "block",
-        "style":{
-	"width": "100%",
-	"height": "150px",
-	"background-color": "#c6c3af",
-	"border-radius": "40px"}
-},{
-    "data-type": "block",
-        "style":{
-    "width": "100px",
-    "height": "100px",
-    "border": "thick solid grey"}
-},{
-	"data-type": "block",
-        "style":{
-	"width": "80px",
-	"height": "80px",
-	"background-color": "grey",
-	"border-radius": "50%"}
-},{
-    "data-type": "block",
-        "style":{
-    "width": "100px",
-    "height": "50px",
-    "background-color": "#fff973",
-    "border-radius": "100px / 50px"}
-},{
-    "data-type": "block",
-        "style":{
-    "width": "100%",
-    "height": "100px",
-    "background-color": "pink"}
 },{
 	"data-type": "button",
         "style":{
@@ -634,14 +614,14 @@ let json = `[{
     "svg": "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 496 512'><path d='M248,8C111.033,8,0,119.033,0,256S111.033,504,248,504,496,392.967,496,256,384.967,8,248,8ZM362.952,176.66c-3.732,39.215-19.881,134.378-28.1,178.3-3.476,18.584-10.322,24.816-16.948,25.425-14.4,1.326-25.338-9.517-39.287-18.661-21.827-14.308-34.158-23.215-55.346-37.177-24.485-16.135-8.612-25,5.342-39.5,3.652-3.793,67.107-61.51,68.335-66.746.153-.655.3-3.1-1.154-4.384s-3.59-.849-5.135-.5q-3.283.746-104.608,69.142-14.845,10.194-26.894,9.934c-8.855-.191-25.888-5.006-38.551-9.123-15.531-5.048-27.875-7.717-26.8-16.291q.84-6.7,18.45-13.7,108.446-47.248,144.628-62.3c68.872-28.647,83.183-33.623,92.511-33.789,2.052-.034,6.639.474,9.61,2.885a10.452,10.452,0,0,1,3.53,6.716A43.765,43.765,0,0,1,362.952,176.66Z'/></svg>",
     "link": "https://www.telegram.com"
 }]
-`
+`;
 
-const leftSidebarButton = document.querySelector('.left-sidebar__button');
-const leftSidebarMenu = document.querySelector('.left-sidebar__menu');
+const leftSidebarButton = document.querySelector(".left-sidebar__button");
+const leftSidebarMenu = document.querySelector(".left-sidebar__menu");
 const leftSidebarElements = document.querySelector(".left-sidebar__elements");
 
-leftSidebarButton.addEventListener('click', function () {
-    leftSidebarMenu.classList.toggle("leftSidebarMenu");
+leftSidebarButton.addEventListener("click", function () {
+  leftSidebarMenu.classList.toggle("leftSidebarMenu");
 });
 
 let blocksArray = [];
@@ -651,53 +631,53 @@ let imagesArray = [];
 let iconsArray = [];
 
 jsonElements = JSON.parse(json);
-jsonElements.forEach(el => {
-    let jsonElementType = ''; //= Object.entries(el)[0][1]
-    let newEl = `<div class="element elementPreview flexible" tabindex="0" draggable="true"`
-    const elProperties = Object.entries(el);
-    let text = '';
-    elProperties.forEach(pr => {
-        if (pr[0] === 'data-type') {
-            jsonElementType = pr[1];
-        }
-        if (pr[0] === 'style') {
-            const styleAttributes = Object.entries(pr[1]);
-            newEl += ` style="`;
-            styleAttributes.forEach(attr => {
-                newEl += `${attr[0]}:${attr[1]}; `;
-            });
-            newEl += `"`;
-        } else if (pr[0] === 'text' || pr[0] === 'svg') {
-            text = pr[1];
-        } else {
-            newEl += ` ${pr[0]}="${pr[1]}"`;
-        }
-    });
-    newEl += `>${text}</div>`;
-    // console.log(newEl);
-    // console.log(jsonElementType);
-    switch (true) {
-        case (jsonElementType === "block"): {
-            blocksArray.push(newEl);
-            break;
-        }
-        case (jsonElementType === "button"): {
-            buttonsArray.push(newEl)
-            break;
-        }
-        case (jsonElementType === "text"): {
-            textArray.push(newEl)
-            break;
-        }
-        case (jsonElementType === "image"): {
-            imagesArray.push(newEl)
-            break;
-        }
-        case (jsonElementType === "icon"): {
-            iconsArray.push(newEl)
-            break;
-        }
+jsonElements.forEach((el) => {
+  let jsonElementType = ""; //= Object.entries(el)[0][1]
+  let newEl = `<div class="element elementPreview flexible" tabindex="0" draggable="true"`;
+  const elProperties = Object.entries(el);
+  let text = "";
+  elProperties.forEach((pr) => {
+    if (pr[0] === "data-type") {
+      jsonElementType = pr[1];
     }
+    if (pr[0] === "style") {
+      const styleAttributes = Object.entries(pr[1]);
+      newEl += ` style="`;
+      styleAttributes.forEach((attr) => {
+        newEl += `${attr[0]}:${attr[1]}; `;
+      });
+      newEl += `"`;
+    } else if (pr[0] === "text" || pr[0] === "svg") {
+      text = pr[1];
+    } else {
+      newEl += ` ${pr[0]}="${pr[1]}"`;
+    }
+  });
+  newEl += `>${text}</div>`;
+  // console.log(newEl);
+  // console.log(jsonElementType);
+  switch (true) {
+    case jsonElementType === "block": {
+      blocksArray.push(newEl);
+      break;
+    }
+    case jsonElementType === "button": {
+      buttonsArray.push(newEl);
+      break;
+    }
+    case jsonElementType === "text": {
+      textArray.push(newEl);
+      break;
+    }
+    case jsonElementType === "image": {
+      imagesArray.push(newEl);
+      break;
+    }
+    case jsonElementType === "icon": {
+      iconsArray.push(newEl);
+      break;
+    }
+  }
 });
 
 console.log(blocksArray);
@@ -726,52 +706,51 @@ console.log(iconsArray);
 
 let categories = document.querySelectorAll(".categories__button");
 for (let i = 0; i < categories.length; i++) {
-    categories[i].addEventListener('click', function (event) {
-        let target = event.target;
-        switch (true) {
-            case (target.classList.contains('left-sidebar__categories-block')): {
-                leftSidebarElements.classList.add('menuFlexStyle');
-                let elements = blocksArray;
-                drawMenu(elements);
-                break;
-            }
-            case (target.classList.contains('left-sidebar__categories-button')): {
-                leftSidebarElements.classList.add('menuFlexStyle');
-                let elements = buttonsArray;
-                drawMenu(elements);
-                break;
-            }
-            case (target.classList.contains('left-sidebar__categories-text')): {
-                leftSidebarElements.classList.remove('menuFlexStyle');
-                let elements = textArray;
-                drawMenu(elements);
-                break;
-            }
-            case (target.classList.contains('left-sidebar__categories-image')): {
-                leftSidebarElements.classList.remove('menuFlexStyle');
-                let elements = imagesArray;
-                drawMenu(elements);
-                break;
-            }
-            case (target.classList.contains('left-sidebar__categories-icon')): {
-                leftSidebarElements.classList.add('menuFlexStyle');
-                let elements = iconsArray;
-                drawMenu(elements);
-                break;
-            }
-        }
-        dragAndDrop();
-    });
-};
-
-function drawMenu(elements) {
-    let elementsContent = "";
-    for (let element of elements) {
-        elementsContent += element;
+  categories[i].addEventListener("click", function (event) {
+    let target = event.target;
+    switch (true) {
+      case target.classList.contains("left-sidebar__categories-block"): {
+        leftSidebarElements.classList.add("menuFlexStyle");
+        let elements = blocksArray;
+        drawMenu(elements);
+        break;
+      }
+      case target.classList.contains("left-sidebar__categories-button"): {
+        leftSidebarElements.classList.add("menuFlexStyle");
+        let elements = buttonsArray;
+        drawMenu(elements);
+        break;
+      }
+      case target.classList.contains("left-sidebar__categories-text"): {
+        leftSidebarElements.classList.remove("menuFlexStyle");
+        let elements = textArray;
+        drawMenu(elements);
+        break;
+      }
+      case target.classList.contains("left-sidebar__categories-image"): {
+        leftSidebarElements.classList.remove("menuFlexStyle");
+        let elements = imagesArray;
+        drawMenu(elements);
+        break;
+      }
+      case target.classList.contains("left-sidebar__categories-icon"): {
+        leftSidebarElements.classList.add("menuFlexStyle");
+        let elements = iconsArray;
+        drawMenu(elements);
+        break;
+      }
     }
-    leftSidebarElements.innerHTML = elementsContent;
+    dragAndDrop();
+  });
 }
 
+function drawMenu(elements) {
+  let elementsContent = "";
+  for (let element of elements) {
+    elementsContent += element;
+  }
+  leftSidebarElements.innerHTML = elementsContent;
+}
 
 //при клике на элемент выводит его в body, где потом его можно переносить с dragndrop
 // let elementId = 0;
@@ -793,26 +772,26 @@ function drawMenu(elements) {
 // 	}
 // };;
 let templateIndCount = 0;
-const menuBlock = document.querySelector('.left-sidebar__elements');
-const templateBlock = document.querySelector('.template');
+const menuBlock = document.querySelector(".left-sidebar__elements");
+const templateBlock = document.querySelector(".template");
 
-templateBlock.addEventListener('dragover', dragOver);
-templateBlock.addEventListener('dragenter', dragEnter);
-templateBlock.addEventListener('dragleave', dragLeave);
-templateBlock.addEventListener('drop', dragDrop, {
-	capture: true
+templateBlock.addEventListener("dragover", dragOver);
+templateBlock.addEventListener("dragenter", dragEnter);
+templateBlock.addEventListener("dragleave", dragLeave);
+templateBlock.addEventListener("drop", dragDrop, {
+  capture: true,
 });
 const elementsProps = {
-	templNameBtn: {
-		classes: ['btnForm', 'selectTemplateBtn'],
-	},
-	templateNameInput: {
-		classes: ['inputReg', 'templateNameInput'],
-		id: 'projectname',
-		placeholder: 'Название проекта',
-		type: 'text'
-	}
-}
+  templNameBtn: {
+    classes: ["btnForm", "selectTemplateBtn"],
+  },
+  templateNameInput: {
+    classes: ["inputReg", "templateNameInput"],
+    id: "projectname",
+    placeholder: "Название проекта",
+    type: "text",
+  },
+};
 
 // --------------- render ---------------
 
@@ -820,334 +799,340 @@ renderHeader();
 handleDocLoad();
 
 function handleDocLoad() {
-	const email = userLoggedIn();
-	if (isUserTemplateInLS(email)) {
-		renderPopup('open');
-	}
+  const email = userLoggedIn();
+  if (isUserTemplateInLS(email)) {
+    renderPopup("open");
+  }
 }
 
 function userLoggedIn() {
-	const email = localStorage.getItem('email')
-	return ((email) && (localStorage.getItem('login') === 'true')) ? email : false;
+  const email = localStorage.getItem("email");
+  return email && localStorage.getItem("login") === "true" ? email : false;
 }
 
 function isUserTemplateInLS(email) {
-	return (localStorage.getItem(email) !== null) ? true : false;
+  return localStorage.getItem(email) !== null ? true : false;
 }
 
 function renderHeader() {
-	renderSaveBtn();
-	renderListBtn();
+  renderSaveBtn();
+  renderListBtn();
 }
 
 function renderSaveBtn() {
-	const btn = document.createElement('div');
-	btn.classList.add('headerBtn', 'save');
-	btn.innerHTML = '<img src="./img/save.svg" alt="Save to Local Storage">'
-	document.querySelector('header').prepend(btn);
-	document.querySelector('.save').addEventListener('click', handleSaveClick);
+  const btn = document.createElement("div");
+  btn.classList.add("headerBtn", "save");
+  btn.innerHTML = '<img src="./img/save.svg" alt="Save to Local Storage">';
+  document.querySelector("header").prepend(btn);
+  document.querySelector(".save").addEventListener("click", handleSaveClick);
 }
 
 function renderListBtn() {
-	const btn = document.createElement('div');
-	btn.classList.add('headerBtn', 'list');
-	btn.innerHTML = '<img src="./img/list.svg" alt="List of Projects">'
-	document.querySelector('header').prepend(btn);
-	document.querySelector('.list').addEventListener('click', handleListClick);
+  const btn = document.createElement("div");
+  btn.classList.add("headerBtn", "list");
+  btn.innerHTML = '<img src="./img/list.svg" alt="List of Projects">';
+  document.querySelector("header").prepend(btn);
+  document.querySelector(".list").addEventListener("click", handleListClick);
 }
 
 function renderProjBtn(action, el, i) {
-	console.log(el);
-	let selectTemplateBtn;
-	if (action === 'list') {
-		selectTemplateBtn = document.createElement('button');
-	} else {
-		selectTemplateBtn = document.createElement('button');
-	}
-	selectTemplateBtn.textContent = el.name;
-	selectTemplateBtn.classList.add('btnForm', 'selectTemplateBtn');
-	selectTemplateBtn.dataset.id = i;
-	selectTemplateBtn.dataset.action = action;
-	document.querySelector('#windowSelectTemplate > .popup__form').append(selectTemplateBtn);
-	selectTemplateBtn.addEventListener('click', selectTemplate);
+  console.log(el);
+  let selectTemplateBtn;
+  if (action === "list") {
+    selectTemplateBtn = document.createElement("button");
+  } else {
+    selectTemplateBtn = document.createElement("button");
+  }
+  selectTemplateBtn.textContent = el.name;
+  selectTemplateBtn.classList.add("btnForm", "selectTemplateBtn");
+  selectTemplateBtn.dataset.id = i;
+  selectTemplateBtn.dataset.action = action;
+  document
+    .querySelector("#windowSelectTemplate > .popup__form")
+    .append(selectTemplateBtn);
+  selectTemplateBtn.addEventListener("click", selectTemplate);
 }
 
 function selectTemplate(e) {
-	e.preventDefault();
-	const email = userLoggedIn();
-	const template = JSON.parse(localStorage.getItem(email));
-	if (e.target.dataset.action === 'open') {
-		renderHtmlById(e.target.dataset.id, template);
-		handleTemplateLoad();
-	} else if (e.target.dataset.action === 'save') {
-		saveTemplateAs(e.target.dataset.id);
-	} else if (e.target.dataset.action === 'list') {
-		renderHtmlById(e.target.dataset.id, template);
-		handleTemplateLoad();
-	}
-	showPopup('none');
+  e.preventDefault();
+  const email = userLoggedIn();
+  const template = JSON.parse(localStorage.getItem(email));
+  if (e.target.dataset.action === "open") {
+    renderHtmlById(e.target.dataset.id, template);
+    handleTemplateLoad();
+  } else if (e.target.dataset.action === "save") {
+    saveTemplateAs(e.target.dataset.id);
+  } else if (e.target.dataset.action === "list") {
+    renderHtmlById(e.target.dataset.id, template);
+    handleTemplateLoad();
+  }
+  showPopup("none");
 }
 
 function renderPopup(action) {
-	const popupSelectTemplate = document.querySelector('#windowSelectTemplate > .popup__form');
-	popupSelectTemplate.innerHTML = '';
-	const email = userLoggedIn();
-	if (isUserTemplateInLS(email)) {
-		const template = JSON.parse(localStorage.getItem(email));
-		try {
-			template.forEach((el, i) => {
-				renderProjBtn(action, el, i);
-			});
-		} catch (e) {
-			renderProjBtn(action, template, 0);
-		}
-	}
-	let title;
-	if (action === 'open') {
-		title = renderTitle('Выберите проект');
-		popupSelectTemplate.prepend(title);
-		addEmptyTemplateBtn(popupSelectTemplate);
-	} else if (action === 'save') {
-		if (isUserTemplateInLS(email)) {
-			title = renderTitle('Сохранить под именем:')
-			popupSelectTemplate.prepend(title);
-		}
-		addNewTemplateInput(popupSelectTemplate);
-	} else if (action === 'list') {
-		console.log('list');
-		if (isUserTemplateInLS(email)) {
-			title = renderTitle('Мои проекты');
-			renderEditIcons();
-		} else {
-			title = renderTitle('Вы пока не сохранили ни одного проекта');
-		}
-		popupSelectTemplate.prepend(title);
-	}
-	showPopup('block');
+  const popupSelectTemplate = document.querySelector(
+    "#windowSelectTemplate > .popup__form"
+  );
+  popupSelectTemplate.innerHTML = "";
+  const email = userLoggedIn();
+  if (isUserTemplateInLS(email)) {
+    const template = JSON.parse(localStorage.getItem(email));
+    try {
+      template.forEach((el, i) => {
+        renderProjBtn(action, el, i);
+      });
+    } catch (e) {
+      renderProjBtn(action, template, 0);
+    }
+  }
+  let title;
+  if (action === "open") {
+    title = renderTitle("Выберите проект");
+    popupSelectTemplate.prepend(title);
+    addEmptyTemplateBtn(popupSelectTemplate);
+  } else if (action === "save") {
+    if (isUserTemplateInLS(email)) {
+      title = renderTitle("Сохранить под именем:");
+      popupSelectTemplate.prepend(title);
+    }
+    addNewTemplateInput(popupSelectTemplate);
+  } else if (action === "list") {
+    console.log("list");
+    if (isUserTemplateInLS(email)) {
+      title = renderTitle("Мои проекты");
+      renderEditIcons();
+    } else {
+      title = renderTitle("Вы пока не сохранили ни одного проекта");
+    }
+    popupSelectTemplate.prepend(title);
+  }
+  showPopup("block");
 }
 
 function renderEditIcons() {
-	const buttons = document.querySelectorAll('.selectTemplateBtn');
-	buttons.forEach((el) => {
-		const wrapper = document.createElement('div');
-		wrapper.classList.add('popup__form--wrapper');
-		wrapper.dataset.id = el.dataset.id;
-		el.before(wrapper);
-		wrapper.append(el);
-		renderIcon('change-name', wrapper, el);
-		renderIcon('delete', wrapper, el);
-	});
-	const icons = document.querySelectorAll('.btnForm--icon');
-	icons.forEach(icon => {
-		if (icon.dataset.type === 'change-name') {
-			icon.addEventListener('click', handleChangeNameClick);
-		} else if (icon.dataset.type === 'delete') {
-			icon.addEventListener('click', handleDeleteClick);
-		}
-	})
+  const buttons = document.querySelectorAll(".selectTemplateBtn");
+  buttons.forEach((el) => {
+    const wrapper = document.createElement("div");
+    wrapper.classList.add("popup__form--wrapper");
+    wrapper.dataset.id = el.dataset.id;
+    el.before(wrapper);
+    wrapper.append(el);
+    renderIcon("change-name", wrapper, el);
+    renderIcon("delete", wrapper, el);
+  });
+  const icons = document.querySelectorAll(".btnForm--icon");
+  icons.forEach((icon) => {
+    if (icon.dataset.type === "change-name") {
+      icon.addEventListener("click", handleChangeNameClick);
+    } else if (icon.dataset.type === "delete") {
+      icon.addEventListener("click", handleDeleteClick);
+    }
+  });
 }
 
 function handleChangeNameClick(e) {
-	let id;
-	let node;
-	if (e.target.tagName === 'IMG') {
-		id = e.target.parentNode.dataset.id;
-		node = e.target.parentNode;
-		e.target.src = "./img/save.svg";
-	} else {
-		id = e.target.dataset.id;
-		node = e.target;
-		e.target.childNodes[0].src = "./img/save.svg";
-	}
-	node.removeEventListener('click', handleChangeNameClick);
-	node.addEventListener('click', saveChangedName);
-	const nameBtn = document.querySelector(`.selectTemplateBtn[data-id="${id}"]`);
-	nameBtn.removeEventListener('click', selectTemplate);
-	nameBtn.contentEditable = true;
-	nameBtn.focus();
+  let id;
+  let node;
+  if (e.target.tagName === "IMG") {
+    id = e.target.parentNode.dataset.id;
+    node = e.target.parentNode;
+    e.target.src = "./img/save.svg";
+  } else {
+    id = e.target.dataset.id;
+    node = e.target;
+    e.target.childNodes[0].src = "./img/save.svg";
+  }
+  node.removeEventListener("click", handleChangeNameClick);
+  node.addEventListener("click", saveChangedName);
+  const nameBtn = document.querySelector(`.selectTemplateBtn[data-id="${id}"]`);
+  nameBtn.removeEventListener("click", selectTemplate);
+  nameBtn.contentEditable = true;
+  nameBtn.focus();
 }
 
 function handleDeleteClick(e) {
-	e.preventDefault();
-	let id;
-	if (e.target.tagName === 'IMG') {
-		id = e.target.parentNode.dataset.id;
-	} else {
-		id = e.target.dataset.id;
-	}
-	const wrapper = document.querySelector(`div[data-id="${id}"]`);
-	deleteTemplateFromLS(id);
-	wrapper.remove();
+  e.preventDefault();
+  let id;
+  if (e.target.tagName === "IMG") {
+    id = e.target.parentNode.dataset.id;
+  } else {
+    id = e.target.dataset.id;
+  }
+  const wrapper = document.querySelector(`div[data-id="${id}"]`);
+  deleteTemplateFromLS(id);
+  wrapper.remove();
 }
 
 function deleteTemplateFromLS(id) {
-	const email = userLoggedIn();
-	const template = JSON.parse(localStorage.getItem(email));
-	template.splice(id, 1);
-	localStorage.setItem(email, JSON.stringify(template));
+  const email = userLoggedIn();
+  const template = JSON.parse(localStorage.getItem(email));
+  template.splice(id, 1);
+  localStorage.setItem(email, JSON.stringify(template));
 }
 
 function renderIcon(src, block, el) {
-	let newEl = document.createElement('div');
-	newEl.classList.add('btnForm', 'btnForm--icon');
-	newEl.dataset.id = el.dataset.id;
-	newEl.dataset.type = src;
-	newEl.innerHTML = `<img src="./img/${src}.svg" alt="icon">`;
-	block.append(newEl);
+  let newEl = document.createElement("div");
+  newEl.classList.add("btnForm", "btnForm--icon");
+  newEl.dataset.id = el.dataset.id;
+  newEl.dataset.type = src;
+  newEl.innerHTML = `<img src="./img/${src}.svg" alt="icon">`;
+  block.append(newEl);
 }
 
 function renderTitle(title) {
-	let titleEl = document.createElement('h2');
-	titleEl.innerHTML = title;
-	return titleEl;
+  let titleEl = document.createElement("h2");
+  titleEl.innerHTML = title;
+  return titleEl;
 }
 
 function addEmptyTemplateBtn(target) {
-	const emptyTemplateBtn = document.createElement('button');
-	emptyTemplateBtn.textContent = 'Создать новый проект';
-	emptyTemplateBtn.classList.add('btnForm');
-	target.append(emptyTemplateBtn);
-	emptyTemplateBtn.addEventListener('click', openEmptyProject);
+  const emptyTemplateBtn = document.createElement("button");
+  emptyTemplateBtn.textContent = "Создать новый проект";
+  emptyTemplateBtn.classList.add("btnForm");
+  target.append(emptyTemplateBtn);
+  emptyTemplateBtn.addEventListener("click", openEmptyProject);
 }
 
 function addNewTemplateInput(target) {
-	let title = renderTitle('Новый проект:');
-	target.append(title);
-	const inputTemplateName = document.createElement('input');
-	const inputProps = elementsProps.templateNameInput;
-	inputProps.classes.forEach(el => {
-		inputTemplateName.classList.add(el);
-	});
-	inputTemplateName.id = inputProps.id;
-	inputTemplateName.placeholder = inputProps.placeholder;
-	inputTemplateName.type = inputProps.type;
-	target.append(inputTemplateName);
-	const newNameSaveBtn = document.createElement('button');
-	newNameSaveBtn.textContent = 'Сохранить';
-	newNameSaveBtn.classList.add('btnForm');
-	target.append(newNameSaveBtn);
-	newNameSaveBtn.addEventListener('click', saveNewTemplate)
+  let title = renderTitle("Новый проект:");
+  target.append(title);
+  const inputTemplateName = document.createElement("input");
+  const inputProps = elementsProps.templateNameInput;
+  inputProps.classes.forEach((el) => {
+    inputTemplateName.classList.add(el);
+  });
+  inputTemplateName.id = inputProps.id;
+  inputTemplateName.placeholder = inputProps.placeholder;
+  inputTemplateName.type = inputProps.type;
+  target.append(inputTemplateName);
+  const newNameSaveBtn = document.createElement("button");
+  newNameSaveBtn.textContent = "Сохранить";
+  newNameSaveBtn.classList.add("btnForm");
+  target.append(newNameSaveBtn);
+  newNameSaveBtn.addEventListener("click", saveNewTemplate);
 }
 
 function openEmptyProject() {
-	showPopup('none');
+  showPopup("none");
 }
 
 function showPopup(state) {
-	document.getElementById('windowSelectTemplate').style.display = state;
-	document.getElementById('grayBackground').style.display = state;
+  document.getElementById("windowSelectTemplate").style.display = state;
+  document.getElementById("grayBackground").style.display = state;
 }
 
 // --------------- save and load from LS ---------------
 function handleListClick() {
-	renderPopup('list');
+  renderPopup("list");
 }
 
 function handleSaveClick(e) {
-	const email = userLoggedIn();
-	console.log(email);
-	renderPopup('save');
+  const email = userLoggedIn();
+  console.log(email);
+  renderPopup("save");
 }
 
 function saveNewTemplate(e) {
-	const email = userLoggedIn();
-	const projName = document.querySelector('#projectname').value;
-	const projHtml = templateBlock.innerHTML;
-	const templateObj = {
-		name: projName,
-		html: projHtml
-	}
-	if (!isUserTemplateInLS(email)) {
-		localStorage.setItem(email, JSON.stringify(templateObj));
-	} else {
-		let elArray = [];
-		let data = null;
-		data = JSON.parse(localStorage.getItem(email));
-		if (data.length > 1) {
-			elArray.push(...data, templateObj);
-		} else {
-			elArray.push(data, templateObj);
-		}
-		localStorage.setItem(email, JSON.stringify(elArray));
-	}
-	showPopup('none');
+  const email = userLoggedIn();
+  const projName = document.querySelector("#projectname").value;
+  const projHtml = templateBlock.innerHTML;
+  const templateObj = {
+    name: projName,
+    html: projHtml,
+  };
+  if (!isUserTemplateInLS(email)) {
+    localStorage.setItem(email, JSON.stringify(templateObj));
+  } else {
+    let elArray = [];
+    let data = null;
+    data = JSON.parse(localStorage.getItem(email));
+    if (data.length > 1) {
+      elArray.push(...data, templateObj);
+    } else {
+      elArray.push(data, templateObj);
+    }
+    localStorage.setItem(email, JSON.stringify(elArray));
+  }
+  showPopup("none");
 }
 
 function handleTemplateLoad() {
-	const elements = getTemplateElements();
-	elements.forEach(el => {
-		addListenersForNewElement(el);
-	})
+  const elements = getTemplateElements();
+  elements.forEach((el) => {
+    addListenersForNewElement(el);
+  });
 }
 
 function getTemplateElements() {
-	return document.querySelectorAll('.template__element');
+  return document.querySelectorAll(".template__element");
 }
 
 function saveChangedName(e) {
-	console.log('save as');
-	let id;
-	let node;
-	if (e.target.tagName === 'IMG') {
-		id = e.target.parentNode.dataset.id;
-		node = e.target.parentNode;
-		e.target.src = "./img/change-name.svg";
-	} else {
-		id = e.target.dataset.id;
-		node = e.target;
-		node.childNodes[0].src = "./img/change-name.svg";
-	}
-	const nameBtn = document.querySelector(`.selectTemplateBtn[data-id="${id}"]`);
-	newName = nameBtn.innerHTML.replace('<br>', '');
-	console.log(newName);
-	const email = userLoggedIn();
-	const template = JSON.parse(localStorage.getItem(email));
-	if (template.length > 1) {
-		template[id].name = newName;
-	} else {
-		template.name = newName;
-	}
-	localStorage.removeItem(email);
-	localStorage.setItem(email, JSON.stringify(template));
-	console.log(JSON.parse(localStorage.getItem(email))[id]);
-	nameBtn.addEventListener('click', selectTemplate);
-	nameBtn.contentEditable = false;
-	nameBtn.blur();
-	node.removeEventListener('click', saveChangedName);
-	node.addEventListener('click', handleChangeNameClick);
+  console.log("save as");
+  let id;
+  let node;
+  if (e.target.tagName === "IMG") {
+    id = e.target.parentNode.dataset.id;
+    node = e.target.parentNode;
+    e.target.src = "./img/change-name.svg";
+  } else {
+    id = e.target.dataset.id;
+    node = e.target;
+    node.childNodes[0].src = "./img/change-name.svg";
+  }
+  const nameBtn = document.querySelector(`.selectTemplateBtn[data-id="${id}"]`);
+  newName = nameBtn.innerHTML.replace("<br>", "");
+  console.log(newName);
+  const email = userLoggedIn();
+  const template = JSON.parse(localStorage.getItem(email));
+  if (template.length > 1) {
+    template[id].name = newName;
+  } else {
+    template.name = newName;
+  }
+  localStorage.removeItem(email);
+  localStorage.setItem(email, JSON.stringify(template));
+  console.log(JSON.parse(localStorage.getItem(email))[id]);
+  nameBtn.addEventListener("click", selectTemplate);
+  nameBtn.contentEditable = false;
+  nameBtn.blur();
+  node.removeEventListener("click", saveChangedName);
+  node.addEventListener("click", handleChangeNameClick);
 }
 
 function saveTemplateAs(id) {
-	const email = userLoggedIn();
-	const projHtml = templateBlock.innerHTML;
-	const template = JSON.parse(localStorage.getItem(email));
-	if (template.length > 1) {
-		template[id].html = projHtml;
-	} else {
-		template.html = projHtml;
-	}
-	localStorage.setItem(email, JSON.stringify(template));
+  const email = userLoggedIn();
+  const projHtml = templateBlock.innerHTML;
+  const template = JSON.parse(localStorage.getItem(email));
+  if (template.length > 1) {
+    template[id].html = projHtml;
+  } else {
+    template.html = projHtml;
+  }
+  localStorage.setItem(email, JSON.stringify(template));
 }
 
 function renderHtmlById(htmlId, template) {
-	let name;
-	if (template.length > 1) {
-		html = template[htmlId].html;
-		name = template[htmlId].name;
-	} else {
-		html = template.html;
-		name = template.name;
-	}
-	addTitleToHeader(name);
+  let name;
+  if (template.length > 1) {
+    html = template[htmlId].html;
+    name = template[htmlId].name;
+  } else {
+    html = template.html;
+    name = template.name;
+  }
+  addTitleToHeader(name);
 
-	templateBlock.innerHTML = html;
+  templateBlock.innerHTML = html;
 }
 
 function addTitleToHeader(name) {
-	document.querySelector('header').innerHTML += `<div class="header__title"></div>`;
-	document.querySelector('.header__title').innerHTML = name;
-	document.querySelector('.list').addEventListener('click', handleListClick);
-	document.querySelector('.save').addEventListener('click', handleSaveClick);
+  document.querySelector(
+    "header"
+  ).innerHTML += `<div class="header__title"></div>`;
+  document.querySelector(".header__title").innerHTML = name;
+  document.querySelector(".list").addEventListener("click", handleListClick);
+  document.querySelector(".save").addEventListener("click", handleSaveClick);
 }
 // ----------------- drag and drop -----------------
 
@@ -1157,179 +1142,179 @@ let elementX = 0;
 let elementY = 0;
 
 function dragAndDrop() {
-	const elements = document.querySelectorAll('.element');
-	elements.forEach(el => {
-		el.addEventListener('dragstart', dragStart);
-		el.addEventListener('dragend', dragEnd);
-	});
+  const elements = document.querySelectorAll(".element");
+  elements.forEach((el) => {
+    el.addEventListener("dragstart", dragStart);
+    el.addEventListener("dragend", dragEnd);
+  });
 }
 
 function dragStart(e) {
-	getPosition(e);
-	getTemplateFlag(e);
-	setTimeout(() => {
-		if (e.target.parentNode.isSameNode(menuBlock)) {
-			movingElement = e.target.cloneNode(true);
-		} else if (e.target.parentNode.isSameNode(templateBlock)) {
-			movingElement = e.target;
-		}
-	})
+  getPosition(e);
+  getTemplateFlag(e);
+  setTimeout(() => {
+    if (e.target.parentNode.isSameNode(menuBlock)) {
+      movingElement = e.target.cloneNode(true);
+    } else if (e.target.parentNode.isSameNode(templateBlock)) {
+      movingElement = e.target;
+    }
+  });
 }
 
 function dragEnd(e) {
-	e.preventDefault();
+  e.preventDefault();
 }
 
 function dragOver(e) {
-	e.preventDefault();
+  e.preventDefault();
 }
 
 function dragEnter(e) {
-	e.preventDefault();
+  e.preventDefault();
 }
 
 function dragLeave(e) {
-	e.preventDefault();
+  e.preventDefault();
 }
 
 function dragDrop(e) {
-	e.stopPropagation();
-	e.preventDefault();
-	if (!e.target.isSameNode(movingElement)) {
-		this.append(movingElement);
-		movingElement.classList.remove('element', 'elementPreview');
-		movingElement.classList.add('template__element');
-		addListenersForNewElement(movingElement);
-		if (!templateFlag) {
-			createNewElement(e, movingElement);
-		} else {
-			setPosition(e);
-		}
-	}
+  e.stopPropagation();
+  e.preventDefault();
+  if (!e.target.isSameNode(movingElement)) {
+    this.append(movingElement);
+    movingElement.classList.remove("element", "elementPreview");
+    movingElement.classList.add("template__element");
+    addListenersForNewElement(movingElement);
+    if (!templateFlag) {
+      createNewElement(e, movingElement);
+    } else {
+      setPosition(e);
+    }
+  }
 }
 
 function createNewElement(e, movingElement) {
-	const type = movingElement.dataset.type;
-	if (type === 'block') {
-		movingElement.classList.add('wide');
-	} else {
-		movingElement.classList.add('draggable-element');
-		setPosition(e);
-		switch (type) {
-			case 'button':
-				movingElement.classList.add('template__button');
-				break;
-			case 'icon':
-				break;
-			case 'text':
-				movingElement.style.width = '';
-				const textStyleClassName = movingElement.dataset.textstyle;
-				movingElement.classList.add(textStyleClassName, 'template__text');
-				break;
-			case 'image':
-				movingElement.classList.add('template__image');
-				break;
-		}
-	}
+  const type = movingElement.dataset.type;
+  if (type === "block") {
+    movingElement.classList.add("wide");
+  } else {
+    movingElement.classList.add("draggable-element");
+    setPosition(e);
+    switch (type) {
+      case "button":
+        movingElement.classList.add("template__button");
+        break;
+      case "icon":
+        break;
+      case "text":
+        movingElement.style.width = "";
+        const textStyleClassName = movingElement.dataset.textstyle;
+        movingElement.classList.add(textStyleClassName, "template__text");
+        break;
+      case "image":
+        movingElement.classList.add("template__image");
+        break;
+    }
+  }
 }
 
 function addListenersForNewElement(movingElement) {
-	movingElement.addEventListener('click', handleClick);
-	movingElement.addEventListener('dblclick', handleDoubleClick);
-	movingElement.addEventListener('focusout', handleFocusOut);
-	movingElement.addEventListener('dragstart', dragStart);
+  movingElement.addEventListener("click", handleClick);
+  movingElement.addEventListener("dblclick", handleDoubleClick);
+  movingElement.addEventListener("focusout", handleFocusOut);
+  movingElement.addEventListener("dragstart", dragStart);
 }
 
 function pasteCopiedElement(movingElement) {
-	templateBlock.append(movingElement);
-	movingElement.style.top = movingElement.style.top.slice(0, -2) - (-50) + 'px';
-	movingElement.style.left = movingElement.style.left.slice(0, -2) - (-50) + 'px';
-	movingElement.classList.remove('selected');
-	addListenersForNewElement(movingElement);
+  templateBlock.append(movingElement);
+  movingElement.style.top = movingElement.style.top.slice(0, -2) - -50 + "px";
+  movingElement.style.left = movingElement.style.left.slice(0, -2) - -50 + "px";
+  movingElement.classList.remove("selected");
+  addListenersForNewElement(movingElement);
 }
 
 // ----------------- positioning ----------------
 
 function getTemplateFlag(e) {
-	if (e.target.parentNode.isSameNode(templateBlock)) {
-		templateFlag = true;
-	} else {
-		templateFlag = false;
-	}
+  if (e.target.parentNode.isSameNode(templateBlock)) {
+    templateFlag = true;
+  } else {
+    templateFlag = false;
+  }
 }
 
 function setPosition(e) {
-	const scroll = document.scrollingElement.scrollTop;
-	offParTop = e.target.offsetParent.offsetTop;
-	offParLeft = e.target.offsetParent.offsetLeft;
-	movingElement.style.top = e.clientY - elementY - offParTop + scroll + 'px';
-	movingElement.style.left = e.clientX - elementX - offParLeft + 'px';
+  const scroll = document.scrollingElement.scrollTop;
+  offParTop = e.target.offsetParent.offsetTop;
+  offParLeft = e.target.offsetParent.offsetLeft;
+  movingElement.style.top = e.clientY - elementY - offParTop + scroll + "px";
+  movingElement.style.left = e.clientX - elementX - offParLeft + "px";
 }
 
 function getPosition(e) {
-	elementY = e.offsetY;
-	elementX = e.offsetX;
+  elementY = e.offsetY;
+  elementX = e.offsetX;
 }
 
 // -------------- editing handlers -------------------
 function getTarget(e) {
-	let node;
-	if (e.target.tagName === 'path') {
-		node = e.target.parentNode.parentNode;
-	} else if (e.target.tagName === 'svg') {
-		node = e.target.parentNode;
-	} else {
-		node = e.target;
-	}
-	return node;
+  let node;
+  if (e.target.tagName === "path") {
+    node = e.target.parentNode.parentNode;
+  } else if (e.target.tagName === "svg") {
+    node = e.target.parentNode;
+  } else {
+    node = e.target;
+  }
+  return node;
 }
 
 function handleClick(e) {
-	let target = getTarget(e);
-	target.classList.add('selected');
-	target.focus();
-	target.addEventListener('keydown', handleKeyDown);
-	// node.addEventListener('focusout', handleFocusOut);
+  let target = getTarget(e);
+  target.classList.add("selected");
+  target.focus();
+  target.addEventListener("keydown", handleKeyDown);
+  // node.addEventListener('focusout', handleFocusOut);
 }
 
 function handleDoubleClick(e) {
-	let target = getTarget(e);
-	target.contentEditable = true;
-	target.removeEventListener('click', handleClick);
-	target.removeEventListener('keydown', handleKeyDown);
-	target.classList.add('selected');
-	if (target.dataset.type === 'text') {
-		target.style.height = 'auto';
-	}
+  let target = getTarget(e);
+  target.contentEditable = true;
+  target.removeEventListener("click", handleClick);
+  target.removeEventListener("keydown", handleKeyDown);
+  target.classList.add("selected");
+  if (target.dataset.type === "text") {
+    target.style.height = "auto";
+  }
 }
 
 function handleFocusOut(e) {
-	let target = getTarget(e);
-	window.getSelection().removeAllRanges();
-	target.contentEditable = false;
-	target.classList.remove('selected');
-	target.addEventListener('click', handleClick);
+  let target = getTarget(e);
+  window.getSelection().removeAllRanges();
+  target.contentEditable = false;
+  target.classList.remove("selected");
+  target.addEventListener("click", handleClick);
 }
 
 function handleKeyDown(e) {
-	e.preventDefault();
-	if (e.ctrlKey === true && e.key === 'c') {
-		movingElement = e.target.cloneNode(true);
-	} else if (e.ctrlKey === true && e.key === 'v') {
-		pasteCopiedElement(movingElement);
-	} else if (e.key === 'Delete') {
-		e.target.remove();
-	} else if (e.key === 'ArrowLeft') {
-		let left = e.target.style.left;
-		e.target.style.left = left.slice(0, left.length - 2) - 1 + 'px';
-	} else if (e.key === 'ArrowRight') {
-		let right = e.target.style.left;
-		e.target.style.left = right.slice(0, right.length - 2) - (-1) + 'px';
-	} else if (e.key === 'ArrowUp') {
-		let up = e.target.style.top;
-		e.target.style.top = up.slice(0, up.length - 2) - 1 + 'px';
-	} else if (e.key === 'ArrowDown') {
-		let down = e.target.style.top;
-		e.target.style.top = down.slice(0, down.length - 2) - (-1) + 'px';
-	}
-};
+  e.preventDefault();
+  if (e.ctrlKey === true && e.key === "c") {
+    movingElement = e.target.cloneNode(true);
+  } else if (e.ctrlKey === true && e.key === "v") {
+    pasteCopiedElement(movingElement);
+  } else if (e.key === "Delete") {
+    e.target.remove();
+  } else if (e.key === "ArrowLeft") {
+    let left = e.target.style.left;
+    e.target.style.left = left.slice(0, left.length - 2) - 1 + "px";
+  } else if (e.key === "ArrowRight") {
+    let right = e.target.style.left;
+    e.target.style.left = right.slice(0, right.length - 2) - -1 + "px";
+  } else if (e.key === "ArrowUp") {
+    let up = e.target.style.top;
+    e.target.style.top = up.slice(0, up.length - 2) - 1 + "px";
+  } else if (e.key === "ArrowDown") {
+    let down = e.target.style.top;
+    e.target.style.top = down.slice(0, down.length - 2) - -1 + "px";
+  }
+}
