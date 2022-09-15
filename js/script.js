@@ -652,7 +652,7 @@ let iconsArray = [];
 
 jsonElements = JSON.parse(json);
 jsonElements.forEach(el => {
-    let jsonElementType = ''; //= Object.entries(el)[0][1]
+    let jsonElementType = '';
     let newEl = `<div class="element elementPreview flexible" tabindex="0" draggable="true"`
     const elProperties = Object.entries(el);
     let text = '';
@@ -674,8 +674,6 @@ jsonElements.forEach(el => {
         }
     });
     newEl += `>${text}</div>`;
-    // console.log(newEl);
-    // console.log(jsonElementType);
     switch (true) {
         case (jsonElementType === "block"): {
             blocksArray.push(newEl);
@@ -699,30 +697,6 @@ jsonElements.forEach(el => {
         }
     }
 });
-
-console.log(blocksArray);
-console.log(buttonsArray);
-console.log(textArray);
-console.log(imagesArray);
-console.log(iconsArray);
-// //отрисовываем элементы из json в меню
-// //переделано в отдельные функции для каждого типа блока
-// function drawCategories(elements) {
-//     let elementsContent = "";
-//     for (let element of elements) {
-//         elementsContent +=
-//             `<div class="element elementPreview"
-//             draggable="true"
-//             contenteditable="true"
-//             data-type="${element.type}"
-//             style="background: ${element.bgColor}; width: ${element.width}; height: ${element.height}; color: ${element.color}; font-size: ${element.fontSize}; border: ${element.border}; bgImage: ${element.bgImage}; icon: ${element.icon}; link: ${element.link}; border-radius: ${element.borderRadius}; border-left: ${element.borderLeft}; border-right: ${element.borderRight}; border-bottom: ${element.borderBottom}; border-top: ${element.borderTop};
-//             ">` +
-//             ((element.text == undefined) ? `` : `"${element.text}"`) +
-//             `</div>`;
-//     }
-//     document.querySelector(".left-sidebar__elements").innerHTML = elementsContent;
-//     dragFromSidebar();
-// }
 
 let categories = document.querySelectorAll(".categories__button");
 for (let i = 0; i < categories.length; i++) {
@@ -772,26 +746,6 @@ function drawMenu(elements) {
     leftSidebarElements.innerHTML = elementsContent;
 }
 
-
-//при клике на элемент выводит его в body, где потом его можно переносить с dragndrop
-// let elementId = 0;
-
-// function dragFromSidebar() {
-// 	let newElements = document.querySelectorAll(".elementPreview");
-
-// 	for (let j = 0; j < newElements.length; j++) {
-// 		newElements[j].addEventListener('click', function (event) {
-// 			let target = event.target;
-// 			const newDiv = target.cloneNode(true);
-// 			elementId++;
-// 			newDiv.id = elementId; //чтобы обратиться по id
-// 			document.body.appendChild(newDiv);
-// 			newDiv.classList.remove("elementPreview");
-// 			newDiv.classList.add("elementMovable"); //новый класс, чтобы привязать dragndrop
-// 			newDiv.classList.add("flexible");
-// 		});
-// 	}
-// };;
 let templateIndCount = 0;
 const menuBlock = document.querySelector('.left-sidebar__elements');
 const templateBlock = document.querySelector('.template');
