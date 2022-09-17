@@ -1163,6 +1163,7 @@ function createNewElement(e, movingElement) {
         break;
       case "text":
         movingElement.style.width = "";
+        movingElement.style.maxWidth = "300px";
         const textStyleClassName = movingElement.dataset.textstyle;
         movingElement.classList.add(textStyleClassName, "template__text");
         break;
@@ -1229,7 +1230,6 @@ function handleClick(e) {
   target.classList.add("selected");
   target.focus();
   target.addEventListener("keydown", handleKeyDown);
-  // node.addEventListener('focusout', handleFocusOut);
 }
 
 function handleDoubleClick(e) {
